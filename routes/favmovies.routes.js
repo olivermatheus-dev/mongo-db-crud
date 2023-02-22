@@ -14,7 +14,22 @@ favmoviesRouter.post("/", async (req, res) => {
 favmoviesRouter.get("/allfavmovies", async (req, res) => {
   try {
     const allFavMovie = await MovieModel.find();
-    return res.status(201).json(allFavMovie);
+    return res.status(200).json(allFavMovie);
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+favmoviesRouter.get("/favmovie/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const favMovie = await MovieModel.findById(id);
+
+    if (!favMovie) {
+      return res.status(404).json("Filme não encontrado"); // se não for encontrado, a função da return aqui e acaba sua execução
+    }
+    return res.status(201).json(favMovie);
   } catch (err) {
     console.log(err);
   }
